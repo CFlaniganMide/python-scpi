@@ -255,7 +255,7 @@ def tcp(ip, port):
     return dev
 
 
-def serial(port, baudrate=9600):
+def serial(port, baudrate=9600, use_safe_variants=True):
     """ Quick helper to connect via serial """
     from ..transports.rs232 import RS232Transport
     from ..scpi import SCPIProtocol
