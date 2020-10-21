@@ -80,7 +80,7 @@ class TDKLambdaZplus(PowerSupply, TDKSCPI):
 
         super().__init__(protocol, use_safe_variants=use_safe_variants)
 
-    async def measure_current(self, extra_params=""):
+    async def measure_current(self, extra_params="", **kwargs):
         """
         Returns the actual output current in amps.
 
@@ -88,10 +88,10 @@ class TDKLambdaZplus(PowerSupply, TDKSCPI):
                 for this device is ":DC"
         """
 
-        resp = await self.ask("MEAS:CURR%s?" % extra_params)
+        resp = await self.ask("MEAS:CURR%s?" % extra_params, **kwargs)
         return decimal.Decimal(resp)
 
-    async def measure_voltage(self, extra_params=""):
+    async def measure_voltage(self, extra_params="", **kwargs):
         """
         Returns the actual output voltage in volts.
 
@@ -99,10 +99,10 @@ class TDKLambdaZplus(PowerSupply, TDKSCPI):
                 for this device is ":DC"
         """
 
-        resp = await self.ask("MEAS:VOLT%s?" % extra_params)
+        resp = await self.ask("MEAS:VOLT%s?" % extra_params, **kwargs)
         return decimal.Decimal(resp)
 
-    async def measure_power(self, extra_params=""):
+    async def measure_power(self, extra_params="", **kwargs):
         """
         Returns the actual output power in watts.
 
@@ -110,7 +110,7 @@ class TDKLambdaZplus(PowerSupply, TDKSCPI):
                 for this device is ":DC"
         """
 
-        resp = await self.ask("MEAS:POW%s?" % extra_params)
+        resp = await self.ask("MEAS:POW%s?" % extra_params, **kwargs)
         return decimal.Decimal(resp)
 
     async def select_active_instrument(self, id):
@@ -271,5 +271,5 @@ def serial(port, baudrate=9600):
                          timeout=10)
     transport = RS232Transport(port)
     protocol = SCPIProtocol(transport)
-    dev = TDKLambdaZplus(protocol)
+    dev = TDKLambdaZplus(protocol, use_safe_variants=use_safe_variants)
     return dev
